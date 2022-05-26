@@ -1,4 +1,4 @@
-package com.learningSpring.rest.webservices.restfulwebservices.user;
+package com.learningSpring.rest.webservices.restfulwebservices.Exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

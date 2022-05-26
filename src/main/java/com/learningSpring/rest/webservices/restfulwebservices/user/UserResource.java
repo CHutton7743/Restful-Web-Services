@@ -1,5 +1,6 @@
 package com.learningSpring.rest.webservices.restfulwebservices.user;
 
+import com.learningSpring.rest.webservices.restfulwebservices.Exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -2,6 +2,8 @@ package com.learningSpring.rest.webservices.restfulwebservices.user;
 
 import com.learningSpring.rest.webservices.restfulwebservices.Exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -9,6 +11,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class UserResource {
@@ -21,13 +26,17 @@ public class UserResource {
     }
 
     @GetMapping("/users/{id}")
-    public User retrieveUser(@PathVariable int id) throws UserNotFoundException {
+    public EntityModel<User> retrieveUser(@PathVariable int id) throws UserNotFoundException {
         User user = service.findUser(id);
 
         if (user == null) {
             throw new UserNotFoundException("id =" + id);
         }
-        return user;
+        EntityModel<User> model = EntityModel.of(user);
+        WebMvcLinkBuilder linkToUsers = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+
+        model.add(linkToUsers.withRel("all-users"));
+        return model;
     }
 
     @DeleteMapping("/users/{id}")
@@ -46,6 +55,4 @@ public class UserResource {
                 .toUri();
         return ResponseEntity.created(location).build();
     }
-
-
 }

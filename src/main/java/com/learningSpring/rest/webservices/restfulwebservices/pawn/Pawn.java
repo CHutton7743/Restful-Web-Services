@@ -1,20 +1,29 @@
-package com.learningSpring.rest.webservices.restfulwebservices.user;
+package com.learningSpring.rest.webservices.restfulwebservices.pawn;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
-
-public class User {
+@Entity
+public class Pawn {
+    @Id
+    @GeneratedValue
     private Integer id;
     @Size(min = 2, message= "Name must be longer than 2 characters")
     private String name;
     @Past
     private Date birthDate;
 
-    public User(int id, String name, Date birthDate) {
+    public Pawn(int id, String name, Date birthDate) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
+    }
+
+    public Pawn() {
+
     }
 
     @Override

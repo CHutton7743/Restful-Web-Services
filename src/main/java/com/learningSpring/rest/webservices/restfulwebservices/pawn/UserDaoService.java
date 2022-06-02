@@ -11,12 +11,6 @@ public class UserDaoService {
     private static final List<Pawn> pawns = new ArrayList<>();
 
     private static int usersCount = 3;
-    static {
-        pawns.add(new Pawn(1, "Codey", new Date()));
-        pawns.add(new Pawn(2, "Natalie", new Date()));
-        pawns.add(new Pawn(3, "Victoria", new Date()));
-        pawns.add(new Pawn(4, "Valencia", new Date()));
-    }
     public List<Pawn> findAll() {
         return pawns;
     }

@@ -3,9 +3,12 @@ package com.learningSpring.rest.webservices.restfulwebservices.pawn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 public class Pawn {
     @Id
@@ -15,6 +18,9 @@ public class Pawn {
     private String name;
     @Past
     private Date birthDate;
+
+    @OneToMany(mappedBy = "pawn")
+    private List<Post> posts;
 
     public Pawn(int id, String name, Date birthDate) {
         this.id = id;

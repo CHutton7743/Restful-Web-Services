@@ -25,8 +25,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RestController
 public class PawnJPAResource {
     @Autowired
-    private UserDaoService service;
-    @Autowired
     private PawnRepository pawnRepository;
 
     @GetMapping("/jpa/users")
@@ -50,14 +48,11 @@ public class PawnJPAResource {
 
     @DeleteMapping("/jpa/users/{id}")
     public void deletePawn(@PathVariable int id) throws UserNotFoundException {
-        Pawn pawn = service.deleteById(id);
-        if (pawn == null) {
-            throw new UserNotFoundException("id =" + id);
-        }
+        pawnRepository.deleteById(id);
     }
     @PostMapping("/jpa/users")
     public ResponseEntity<Object> postPawn(@Valid @RequestBody Pawn pawn) {
-        Pawn savedPawn = service.save(pawn);
+        Pawn savedPawn = pawnRepository.save(pawn);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedPawn.getId())

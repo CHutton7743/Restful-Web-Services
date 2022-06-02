@@ -26,6 +26,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class PawnJPAResource {
     @Autowired
     private PawnRepository pawnRepository;
+    @Autowired
+    private PostRepository postRepository;
 
     @GetMapping("/jpa/users")
     public List<Pawn> retrieveAllPawns() {
@@ -57,6 +59,33 @@ public class PawnJPAResource {
                 .path("/{id}")
                 .buildAndExpand(savedPawn.getId())
                 .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/jpa/users/{id}/posts")
+    public List<Post> retrieveAllPosts(@PathVariable int id) {
+        Optional<Pawn> optionalPawn = pawnRepository.findById(id);
+        if(optionalPawn.isEmpty()) {
+            throw new UserNotFoundException("id=" + id);
+        }
+        return optionalPawn.get().getPosts();
+    }
+
+    @PostMapping("/jpa/users/{id}/posts")
+    public ResponseEntity<Object> createPost(@PathVariable int id, @RequestBody Post post) {
+        Optional<Pawn> optionalPawn = pawnRepository.findById(id);
+        if (optionalPawn.isEmpty()) {
+            throw new UserNotFoundException("id=" + id);
+        }
+        Pawn pawn = optionalPawn.get();
+
+        post.setPawn(pawn);
+
+        postRepository.save(post);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(post.getId())
+                .toUri();
+
         return ResponseEntity.created(location).build();
     }
 }

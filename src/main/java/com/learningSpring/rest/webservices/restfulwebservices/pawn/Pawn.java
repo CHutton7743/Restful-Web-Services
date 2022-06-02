@@ -22,6 +22,14 @@ public class Pawn {
     @OneToMany(mappedBy = "pawn")
     private List<Post> posts;
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
     public Pawn(int id, String name, Date birthDate) {
         this.id = id;
         this.name = name;
